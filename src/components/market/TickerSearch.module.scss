@@ -1,0 +1,161 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
+}
+
+.searchForm {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  background-color: $bg-canvas;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-md;
+  padding: 0.25rem 0.5rem;
+  transition: all $transition-base;
+
+  &:focus-within {
+    border-color: $border-focus;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+  }
+
+  .searchIcon {
+    color: $text-muted;
+    margin-right: 0.35rem;
+    flex-shrink: 0;
+  }
+
+  .input {
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: $font-mono;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: $text-primary;
+    text-transform: uppercase;
+    width: 75px;
+
+    &::placeholder {
+      color: $text-muted;
+      text-transform: none;
+      font-weight: 500;
+      font-size: 0.8rem;
+    }
+  }
+
+  .submitBtn {
+    background-color: $color-cyan;
+    color: #ffffff;
+    border: none;
+    border-radius: $radius-sm;
+    padding: 0.2rem 0.45rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: filter $transition-base;
+
+    &:hover:not(:disabled) {
+      filter: brightness(1.15);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.pillGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+
+  @media (max-width: 1400px) {
+    display: none;
+  }
+}
+
+.pillBtn {
+  font-family: $font-mono;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: $radius-sm;
+  background-color: $bg-card;
+  border: 1px solid $border-subtle;
+  color: $text-secondary;
+  cursor: pointer;
+  transition: all $transition-base;
+
+  &:hover {
+    color: $text-primary;
+    background-color: $bg-hover;
+    border-color: $border-focus;
+  }
+
+  &.active {
+    background-color: rgba(37, 99, 235, 0.12);
+    border-color: $color-cyan;
+    color: $color-cyan;
+  }
+}
+
+.spinner {
+  animation: spin 0.8s linear infinite;
+}
+
+.errorToast {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: rgba(220, 38, 38, 0.95);
+  color: #ffffff;
+  padding: 0.35rem 0.65rem;
+  border-radius: $radius-sm;
+  font-size: 0.75rem;
+  box-shadow: var(--shadow-modal);
+  white-space: nowrap;
+  animation: fadeIn 0.15s ease-out;
+
+  .dismissBtn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    padding: 0;
+    margin-left: 0.25rem;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      color: #ffffff;
+    }
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-3px); }
+  to { opacity: 1; transform: translateY(0); }
+}

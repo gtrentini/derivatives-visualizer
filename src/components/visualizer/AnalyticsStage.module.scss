@@ -1,0 +1,575 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.analyticsStage {
+  min-height: 0;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1.5rem 1.6rem;
+  gap: 1.5rem;
+  background-color: $bg-canvas;
+  transition: background-color $transition-base;
+}
+
+// 1. Greeks Telemetry Ribbon
+.greeksRibbon {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.15rem;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.greekCard {
+  background-color: $bg-panel;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-lg;
+  padding: 1.25rem 1.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+  transition: border-color $transition-base, background-color $transition-base;
+
+  &:hover {
+    border-color: $border-focus;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: transparent;
+  }
+
+  &.deltaCard::before { background-color: $color-cyan; }
+  &.gammaCard::before { background-color: $color-purple; }
+  &.thetaCard::before { background-color: $color-profit; }
+  &.vegaCard::before { background-color: $color-amber; }
+
+  .cardTop {
+    @include flex-between;
+
+    .symbolGroup {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+
+      .greekSymbol {
+        font-family: $font-mono;
+        font-size: 1.35rem;
+        font-weight: 800;
+        line-height: 1;
+
+        &.delta { color: $color-cyan; }
+        &.gamma { color: $color-purple; }
+        &.theta { color: $color-profit; }
+        &.vega { color: $color-amber; }
+      }
+
+      .greekName {
+        font-size: 0.88rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: $text-secondary;
+      }
+    }
+
+    .statusPill {
+      font-family: $font-mono;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.2rem 0.55rem;
+      border-radius: $radius-sm;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+
+      &.positive {
+        background-color: rgba(22, 163, 74, 0.12);
+        color: $color-profit;
+        border: 1px solid rgba(22, 163, 74, 0.25);
+      }
+
+      &.negative {
+        background-color: rgba(220, 38, 38, 0.12);
+        color: $color-loss;
+        border: 1px solid rgba(220, 38, 38, 0.25);
+      }
+
+      &.neutral {
+        background-color: $bg-hover;
+        color: $text-secondary;
+        border: 1px solid $border-subtle;
+      }
+    }
+  }
+
+  .valueDisplay {
+    font-family: $font-mono;
+    font-size: 1.65rem; // ~26px
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: $text-primary;
+    margin: 0.25rem 0;
+
+    &.positive { color: $color-profit; }
+    &.negative { color: $color-loss; }
+  }
+
+  .formulaLabel {
+    font-family: $font-mono;
+    font-size: 0.82rem; // Humane 0.82rem
+    color: $text-muted;
+    line-height: 1.4;
+  }
+}
+
+// 2. Risk & Capital Envelope Grid
+.envelopeSection {
+  background-color: $bg-panel;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-lg;
+  padding: 1.35rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  box-shadow: var(--shadow-card);
+  transition: background-color $transition-base;
+
+  .sectionHeader {
+    @include flex-between;
+
+    .headerTitle {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-size: 0.95rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: $text-primary;
+
+      .headerIcon {
+        color: $color-cyan;
+      }
+    }
+
+    .badgeTag {
+      @include badge(rgba(37, 99, 235, 0.1), $color-cyan, rgba(37, 99, 235, 0.25));
+    }
+  }
+
+  .envelopeGrid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.95rem;
+
+    @media (max-width: 1400px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width: 800px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .envelopeCard {
+      background-color: $bg-card;
+      border: 1px solid $border-subtle;
+      border-radius: $radius-md;
+      padding: 0.95rem 1.05rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      box-shadow: var(--shadow-card);
+
+      .envLabel {
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: $text-muted;
+      }
+
+      .envValue {
+        font-family: $font-mono;
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: $text-primary;
+        white-space: nowrap;
+
+        &.profit { color: $color-profit; }
+        &.loss { color: $color-loss; }
+        &.cyan { color: $color-cyan; }
+        &.amber { color: $color-amber; }
+      }
+
+      .envSub {
+        font-size: 0.72rem;
+        color: $text-muted;
+      }
+
+      .breakevenList {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+        margin-top: 0.15rem;
+
+        .breakevenBadge {
+          font-family: $font-mono;
+          font-size: 0.8rem;
+          font-weight: 700;
+          padding: 0.15rem 0.45rem;
+          border-radius: $radius-sm;
+          background-color: rgba(37, 99, 235, 0.1);
+          color: $color-cyan;
+          border: 1px solid rgba(37, 99, 235, 0.25);
+        }
+
+        .noneBadge {
+          font-family: $font-mono;
+          font-size: 0.78rem;
+          color: $text-muted;
+        }
+      }
+    }
+  }
+}
+
+// 3. Real-Time Spot Sensitivity Grid
+.sensitivitySection {
+  background-color: $bg-panel;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: background-color $transition-base;
+
+  .tableHeader {
+    @include flex-between;
+    padding: 1.05rem 1.4rem;
+    background-color: $bg-card;
+    border-bottom: 1px solid $border-subtle;
+
+    .titleGroup {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+
+      .titleIcon {
+        color: $color-cyan;
+      }
+
+      h4 {
+        font-size: 0.92rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: $text-primary;
+      }
+    }
+
+    .tableSubtitle {
+      font-family: $font-mono;
+      font-size: 0.78rem;
+      color: $text-muted;
+      font-weight: 600;
+    }
+  }
+
+  .tableWrapper {
+    overflow-x: auto;
+    width: 100%;
+    border: 1px solid $border-subtle;
+    border-radius: $radius-md;
+    background-color: $bg-panel;
+    @include custom-scrollbar(8px);
+  }
+
+  .sensitivityTable {
+    min-width: 980px;
+    width: 100%;
+    table-layout: auto;
+    border-collapse: collapse;
+
+    thead {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background-color: $bg-card;
+
+      th {
+        background-color: $bg-card;
+        color: $text-muted;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        padding: 0.85rem 1.25rem;
+        text-align: right;
+        border-bottom: 1px solid $border-subtle;
+        white-space: nowrap;
+
+        &:first-child {
+          text-align: left;
+        }
+
+        &:last-child {
+          text-align: center;
+        }
+      }
+    }
+
+    td {
+      padding: 0.85rem 1.25rem;
+      font-family: $font-mono;
+      font-size: 0.92rem;
+      color: $text-primary;
+      border-bottom: 1px solid $border-subtle;
+      text-align: right;
+      white-space: nowrap;
+
+      &:first-child {
+        text-align: left;
+      }
+
+      &:last-child {
+        text-align: center;
+      }
+    }
+
+    th, td {
+      &:nth-child(1) { min-width: 150px; }
+      &:nth-child(2) { min-width: 125px; }
+      &:nth-child(3) { min-width: 150px; }
+      &:nth-child(4) { min-width: 150px; }
+      &:nth-child(5) { min-width: 95px; }
+      &:nth-child(6) { min-width: 95px; }
+      &:nth-child(7) { min-width: 120px; }
+      &:nth-child(8) { min-width: 110px; }
+      &:nth-child(9) { min-width: 140px; }
+    }
+
+    tr:hover td {
+      background-color: $bg-hover;
+    }
+
+    tr.currentSpotRow td {
+      background-color: rgba(37, 99, 235, 0.08);
+      border-top: 1px solid rgba(37, 99, 235, 0.3);
+      border-bottom: 1px solid rgba(37, 99, 235, 0.3);
+      font-weight: 800;
+    }
+
+    .spotLabelWrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+
+      .currentPill {
+        font-size: 0.68rem;
+        font-weight: 800;
+        padding: 0.12rem 0.4rem;
+        border-radius: $radius-sm;
+        background-color: rgba(37, 99, 235, 0.15);
+        color: $color-cyan;
+        border: 1px solid rgba(37, 99, 235, 0.3);
+      }
+    }
+
+    .plProfit {
+      color: $color-profit;
+      font-weight: 800;
+    }
+
+    .plLoss {
+      color: $color-loss;
+      font-weight: 800;
+    }
+
+    .stateBadge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.2rem 0.55rem;
+      border-radius: $radius-sm;
+
+      &.profit {
+        background-color: rgba(22, 163, 74, 0.12);
+        color: $color-profit;
+        border: 1px solid rgba(22, 163, 74, 0.3);
+      }
+
+      &.loss {
+        background-color: rgba(220, 38, 38, 0.12);
+        color: $color-loss;
+        border: 1px solid rgba(220, 38, 38, 0.3);
+      }
+    }
+  }
+}
+
+// 4. Model Legs Inventory Matrix
+.legsSection {
+  background-color: $bg-panel;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: background-color $transition-base;
+
+  .legsHeader {
+    @include flex-between;
+    padding: 1.05rem 1.4rem;
+    background-color: $bg-card;
+    border-bottom: 1px solid $border-subtle;
+
+    .titleGroup {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+
+      .titleIcon {
+        color: $color-profit;
+      }
+
+      h4 {
+        font-size: 0.92rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: $text-primary;
+      }
+    }
+
+    .engineStatus {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-family: $font-mono;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: $color-profit;
+
+      .dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background-color: $color-profit;
+        box-shadow: 0 0 8px $color-profit;
+      }
+    }
+  }
+
+  .legsTableWrapper {
+    overflow-x: auto;
+    width: 100%;
+    border: 1px solid $border-subtle;
+    border-radius: $radius-md;
+    background-color: $bg-panel;
+    @include custom-scrollbar(8px);
+  }
+
+  .legsTable {
+    min-width: 980px;
+    width: 100%;
+    table-layout: auto;
+    border-collapse: collapse;
+
+    thead {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background-color: $bg-card;
+
+      th {
+        background-color: $bg-card;
+        color: $text-muted;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        padding: 0.85rem 1.25rem;
+        text-align: left;
+        border-bottom: 1px solid $border-subtle;
+        white-space: nowrap;
+
+        &:last-child {
+          text-align: right;
+        }
+      }
+    }
+
+    td {
+      padding: 0.85rem 1.25rem;
+      font-family: $font-mono;
+      font-size: 0.88rem;
+      color: $text-primary;
+      border-bottom: 1px solid $border-subtle;
+      white-space: nowrap;
+
+      &:last-child {
+        text-align: right;
+        font-weight: 700;
+      }
+    }
+
+    th, td {
+      &:nth-child(1) { min-width: 100px; }
+      &:nth-child(2) { min-width: 85px; }
+      &:nth-child(3) { min-width: 105px; }
+      &:nth-child(4) { min-width: 110px; text-align: right; }
+      &:nth-child(5) { min-width: 95px; text-align: right; }
+      &:nth-child(6) { min-width: 105px; text-align: right; }
+      &:nth-child(7) { min-width: 105px; text-align: right; }
+      &:nth-child(8) { min-width: 85px; text-align: right; }
+      &:nth-child(9) { min-width: 115px; text-align: right; }
+      &:nth-child(10) { min-width: 150px; text-align: right; }
+      &:nth-child(11) { min-width: 160px; text-align: right; }
+    }
+
+    tr.mutedRow td {
+      color: $text-muted;
+      text-decoration: line-through;
+    }
+
+    tr:hover td {
+      background-color: $bg-hover;
+    }
+  }
+}
+
+.sideLong {
+  @include badge(rgba(37, 99, 235, 0.1), $color-cyan, rgba(37, 99, 235, 0.25));
+  font-size: 0.82rem;
+}
+
+.sideShort {
+  @include badge(rgba(217, 119, 6, 0.1), $color-amber, rgba(217, 119, 6, 0.25));
+  font-size: 0.82rem;
+}
+
+.typeCall {
+  @include badge(rgba(22, 163, 74, 0.1), $color-profit, rgba(22, 163, 74, 0.25));
+  font-size: 0.82rem;
+}
+
+.typePut {
+  @include badge(rgba(220, 38, 38, 0.1), $color-loss, rgba(220, 38, 38, 0.25));
+  font-size: 0.82rem;
+}
+
+.typeStock {
+  @include badge(rgba(124, 58, 237, 0.1), $color-purple, rgba(124, 58, 237, 0.25));
+  font-size: 0.82rem;
+}

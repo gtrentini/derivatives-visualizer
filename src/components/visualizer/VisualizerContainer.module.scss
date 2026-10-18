@@ -1,0 +1,166 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: $bg-canvas;
+  transition: background-color $transition-base;
+}
+
+.topBar {
+  @include flex-between;
+  padding: 0.8rem 1.6rem;
+  background-color: $bg-panel;
+  border-bottom: 1px solid $border-subtle;
+  gap: 1.5rem;
+  flex-shrink: 0;
+  z-index: 80;
+  transition: background-color $transition-base, border-color $transition-base;
+
+  @media (max-width: 1200px) {
+    flex-wrap: wrap;
+    gap: 0.85rem;
+  }
+}
+
+.leftControls {
+  display: flex;
+  align-items: center;
+  gap: 1.35rem;
+}
+
+.segmentedViewSwitch {
+  display: flex;
+  background-color: $bg-canvas;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-md;
+  padding: 3px;
+  gap: 4px;
+
+  .switchBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.45rem 0.95rem;
+    font-size: 0.85rem; // ~13.5px
+    font-weight: 700;
+    font-family: $font-mono;
+    color: $text-secondary;
+    border-radius: $radius-sm;
+    transition: all $transition-base;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+
+    &:hover:not(.active) {
+      color: $text-primary;
+      background-color: $bg-hover;
+    }
+
+    &.active {
+      background-color: $bg-card;
+      color: $color-cyan;
+      border: 1px solid rgba(37, 99, 235, 0.25);
+      box-shadow: var(--shadow-card);
+    }
+  }
+}
+
+.probabilityGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
+
+  .probPill {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    background-color: $bg-card;
+    border: 1px solid $border-subtle;
+    border-radius: $radius-sm;
+    padding: 0.35rem 0.7rem;
+    font-family: $font-mono;
+    font-size: 0.8rem;
+    box-shadow: var(--shadow-card);
+
+    .probLabel {
+      color: $text-muted;
+      font-weight: 700;
+    }
+
+    .probValue {
+      color: $color-cyan;
+      font-weight: 800;
+    }
+  }
+}
+
+.rightControls {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.metricBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.38rem 0.75rem;
+  background-color: rgba(37, 99, 235, 0.08);
+  border: 1px solid rgba(37, 99, 235, 0.25);
+  border-radius: $radius-sm;
+  font-family: $font-mono;
+  font-size: 0.82rem;
+
+  .metricLabel {
+    color: $text-muted;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .metricName {
+    color: $color-cyan;
+    font-weight: 800;
+  }
+}
+
+.centerSpotBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.42rem 0.75rem;
+  background-color: $bg-card;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-sm;
+  color: $text-secondary;
+  font-size: 0.82rem;
+  font-family: $font-mono;
+  font-weight: 700;
+  transition: all $transition-base;
+  box-shadow: var(--shadow-card);
+
+  &:hover {
+    color: $text-primary;
+    border-color: $border-focus;
+    background-color: $bg-hover;
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+.bodyArea {
+  min-height: 0;
+  flex: 1 1 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}

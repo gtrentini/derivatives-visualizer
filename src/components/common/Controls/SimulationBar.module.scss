@@ -1,0 +1,199 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.simulationBar {
+  background-color: $bg-panel;
+  border-bottom: 1px solid $border-subtle;
+  padding: 0.9rem 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2.5rem;
+  flex-shrink: 0;
+  z-index: 90;
+  transition: background-color $transition-base, border-color $transition-base;
+}
+
+.slidersGroup {
+  display: flex;
+  align-items: center;
+  gap: 2.2rem;
+  flex: 1;
+}
+
+.sliderContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  flex: 1;
+  max-width: 360px;
+
+  .sliderHeader {
+    @include flex-between;
+
+    .sliderLabel {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: $text-secondary;
+    }
+
+    .sliderValueBadge {
+      font-family: $font-mono;
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: $color-cyan;
+      background-color: rgba(37, 99, 235, 0.1);
+      padding: 0.15rem 0.55rem;
+      border-radius: $radius-sm;
+      border: 1px solid rgba(37, 99, 235, 0.25);
+
+      &.shockPositive {
+        color: $color-amber;
+        background-color: rgba(217, 119, 6, 0.1);
+        border-color: rgba(217, 119, 6, 0.25);
+      }
+
+      &.shockNegative {
+        color: $color-profit;
+        background-color: rgba(22, 163, 74, 0.1);
+        border-color: rgba(22, 163, 74, 0.25);
+      }
+    }
+  }
+
+  .rangeWrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    .rangeBound {
+      font-family: $font-mono;
+      font-size: 0.78rem;
+      color: $text-muted;
+      white-space: nowrap;
+      font-weight: 600;
+    }
+
+    .rangeInput {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 7px;
+      border-radius: 999px;
+      background: $bg-card;
+      border: 1px solid $border-subtle;
+      outline: none;
+      cursor: pointer;
+      transition: background $transition-base;
+
+      &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: $color-cyan;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(37, 99, 235, 0.4);
+        transition: transform $transition-base, background-color $transition-base;
+
+        &:hover {
+          transform: scale(1.2);
+          opacity: 0.95;
+        }
+      }
+
+      &::-moz-range-thumb {
+        width: 16px;
+        height: 16px;
+        border: none;
+        border-radius: 50%;
+        background: $color-cyan;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(37, 99, 235, 0.4);
+        transition: transform $transition-base;
+
+        &:hover {
+          transform: scale(1.2);
+        }
+      }
+    }
+
+    .resetBtn {
+      font-family: $font-mono;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: $text-muted;
+      padding: 0.2rem 0.45rem;
+      border-radius: $radius-sm;
+      background-color: $bg-card;
+      border: 1px solid $border-subtle;
+      transition: all $transition-base;
+
+      &:hover {
+        color: $text-primary;
+        border-color: $border-focus;
+      }
+    }
+  }
+}
+
+.metricsGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+
+  .metricsLabel {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: $text-secondary;
+  }
+
+  .tabsList {
+    display: flex;
+    align-items: center;
+    background-color: $bg-canvas;
+    border: 1px solid $border-subtle;
+    border-radius: $radius-md;
+    padding: 3px;
+    gap: 4px;
+
+    .metricTab {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.5rem 0.95rem; // ~10px padding
+      border-radius: $radius-sm;
+      color: $text-secondary;
+      font-size: 0.9rem;
+      font-weight: 700;
+      transition: all $transition-base;
+
+      .symbol {
+        font-family: $font-mono;
+        font-weight: 800;
+        font-size: 0.95rem;
+      }
+
+      &:hover:not(.active) {
+        color: $text-primary;
+        background-color: $bg-hover;
+      }
+
+      &.active {
+        background-color: $bg-card;
+        color: $color-cyan;
+        box-shadow: var(--shadow-card);
+        border: 1px solid rgba(37, 99, 235, 0.3);
+
+        .symbol {
+          color: $color-cyan;
+        }
+      }
+    }
+  }
+}

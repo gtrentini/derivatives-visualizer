@@ -1,0 +1,400 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.modal {
+  width: 100%;
+  max-width: 1100px;
+  max-height: 90vh;
+  background-color: $bg-panel;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-lg;
+  box-shadow: var(--shadow-modal);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: scaleUp 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: background-color $transition-base;
+}
+
+.header {
+  @include flex-between;
+  padding: 1rem 1.6rem;
+  border-bottom: 1px solid $border-subtle;
+  background-color: $bg-card;
+
+  .leftGroup {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    .iconWrapper {
+      color: $color-cyan;
+      display: flex;
+      align-items: center;
+    }
+
+    .title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: $text-primary;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      .symbolPill {
+        font-family: $font-mono;
+        color: $color-cyan;
+        background: rgba(37, 99, 235, 0.1);
+        padding: 0.1rem 0.5rem;
+        border-radius: $radius-sm;
+        font-size: 0.88rem;
+      }
+
+      .spotText {
+        font-family: $font-mono;
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: $text-secondary;
+      }
+    }
+  }
+
+  .rightControls {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+
+    .expSelectWrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      background-color: $bg-canvas;
+      border: 1px solid $border-subtle;
+      border-radius: $radius-md;
+      padding: 0.35rem 0.65rem;
+
+      label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: $text-muted;
+      }
+
+      select {
+        background: transparent;
+        border: none;
+        outline: none;
+        font-family: $font-mono;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: $text-primary;
+        cursor: pointer;
+      }
+    }
+
+    .closeBtn {
+      color: $text-secondary;
+      padding: 0.45rem;
+      border-radius: $radius-sm;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all $transition-base;
+
+      &:hover {
+        color: $text-primary;
+        background-color: $bg-hover;
+      }
+    }
+  }
+}
+
+.statusRibbon {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.6rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border-bottom: 1px solid $border-subtle;
+
+  .dot {
+    font-size: 0.75rem;
+    line-height: 1;
+  }
+
+  &.live {
+    background-color: rgba(22, 163, 74, 0.08);
+    color: $color-profit;
+    border-bottom-color: rgba(22, 163, 74, 0.2);
+  }
+
+  &.fallback {
+    background-color: rgba(217, 119, 6, 0.08);
+    color: $color-amber;
+    border-bottom-color: rgba(217, 119, 6, 0.2);
+  }
+}
+
+.tableContainer {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+  background-color: $bg-canvas;
+}
+
+.matrixTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: $font-mono;
+  font-size: 0.82rem;
+
+  thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: $bg-card;
+
+    .topHeaderRow {
+      th {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        border-bottom: 1px solid $border-subtle;
+
+        &.callsHeader {
+          color: $color-profit;
+          text-align: right;
+          background: rgba(22, 163, 74, 0.06);
+        }
+
+        &.strikeHeader {
+          color: $color-cyan;
+          text-align: center;
+          border-left: 1px solid $border-subtle;
+          border-right: 1px solid $border-subtle;
+        }
+
+        &.putsHeader {
+          color: $color-loss;
+          text-align: left;
+          background: rgba(220, 38, 38, 0.06);
+        }
+      }
+    }
+
+    .subHeaderRow {
+      th {
+        padding: 0.5rem 0.7rem;
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: $text-muted;
+        text-transform: uppercase;
+        border-bottom: 2px solid $border-subtle;
+        white-space: nowrap;
+
+        &.strikeCol {
+          text-align: center;
+          border-left: 1px solid $border-subtle;
+          border-right: 1px solid $border-subtle;
+          background-color: $bg-card;
+        }
+
+        &.alignRight {
+          text-align: right;
+        }
+
+        &.alignLeft {
+          text-align: left;
+        }
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid $border-subtle;
+      transition: background-color $transition-base;
+
+      &:hover {
+        background-color: $bg-hover;
+      }
+
+      &.atmRow {
+        background-color: rgba(37, 99, 235, 0.08);
+
+        td.strikeCell .strikeBadge {
+          background-color: $color-cyan;
+          color: #ffffff;
+        }
+      }
+
+      td {
+        padding: 0.45rem 0.7rem;
+        white-space: nowrap;
+        color: $text-primary;
+
+        &.itmCall {
+          background-color: rgba(22, 163, 74, 0.04);
+        }
+
+        &.itmPut {
+          background-color: rgba(220, 38, 38, 0.04);
+        }
+
+        &.strikeCell {
+          text-align: center;
+          border-left: 1px solid $border-subtle;
+          border-right: 1px solid $border-subtle;
+          background-color: $bg-panel;
+
+          .strikeBadge {
+            display: inline-block;
+            font-weight: 800;
+            padding: 0.15rem 0.5rem;
+            border-radius: $radius-sm;
+            border: 1px solid $border-subtle;
+            background-color: $bg-card;
+          }
+        }
+
+        &.actionCell {
+          width: 90px;
+          padding: 0.2rem 0.4rem;
+        }
+
+        .actionButtons {
+          display: flex;
+          align-items: center;
+          gap: 0.3rem;
+          opacity: 0.4;
+          transition: opacity $transition-base;
+
+          button {
+            padding: 0.2rem 0.4rem;
+            font-size: 0.68rem;
+            font-weight: 700;
+            border-radius: $radius-sm;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all $transition-base;
+
+            &.buyBtn {
+              background-color: rgba(22, 163, 74, 0.15);
+              color: $color-profit;
+              border-color: rgba(22, 163, 74, 0.3);
+
+              &:hover {
+                background-color: $color-profit;
+                color: #ffffff;
+              }
+            }
+
+            &.sellBtn {
+              background-color: rgba(220, 38, 38, 0.15);
+              color: $color-loss;
+              border-color: rgba(220, 38, 38, 0.3);
+
+              &:hover {
+                background-color: $color-loss;
+                color: #ffffff;
+              }
+            }
+          }
+        }
+      }
+
+      &:hover td .actionButtons {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.loadingOverlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(2px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  z-index: 20;
+  color: $text-primary;
+
+  .spinner {
+    animation: spin 0.8s linear infinite;
+    color: $color-cyan;
+  }
+}
+
+.footer {
+  padding: 0.75rem 1.6rem;
+  border-top: 1px solid $border-subtle;
+  background-color: $bg-card;
+  @include flex-between;
+  font-size: 0.78rem;
+  color: $text-muted;
+
+  .legend {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+
+    .legendItem {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+
+      .sampleSquare {
+        width: 10px;
+        height: 10px;
+        border-radius: 2px;
+
+        &.call { background-color: rgba(22, 163, 74, 0.3); }
+        &.put { background-color: rgba(220, 38, 38, 0.3); }
+        &.atm { background-color: $color-cyan; }
+      }
+    }
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}

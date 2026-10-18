@@ -1,0 +1,195 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.surfaceContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 440px;
+  display: flex;
+  flex-direction: column;
+  background-color: $bg-canvas;
+  overflow: hidden;
+  user-select: none;
+}
+
+.canvasWrapper {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    outline: none;
+  }
+}
+
+// 3D Toolbar Overlay
+.floatingToolbar {
+  position: absolute;
+  top: 1rem;
+  left: 1.25rem;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: $bg-panel;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-md;
+  padding: 0.35rem 0.5rem;
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  .toolBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.65rem;
+    font-size: 0.78rem;
+    font-family: $font-mono;
+    font-weight: 700;
+    color: $text-secondary;
+    border-radius: $radius-sm;
+    transition: all $transition-base;
+
+    &:hover {
+      color: $text-primary;
+      background-color: $bg-hover;
+    }
+
+    &.active {
+      color: $color-cyan;
+      background-color: rgba(37, 99, 235, 0.1);
+      border: 1px solid rgba(37, 99, 235, 0.25);
+    }
+  }
+}
+
+// 3D HUD Tooltip
+.hud3D {
+  position: absolute;
+  z-index: 50;
+  pointer-events: none;
+  background-color: $bg-panel;
+  border: 1px solid rgba(37, 99, 235, 0.35);
+  border-radius: $radius-md;
+  padding: 0.85rem 1.05rem;
+  box-shadow: var(--shadow-modal);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  min-width: 210px;
+  transform: translate(14px, 14px);
+  animation: hudFadeIn 0.12s ease-out;
+
+  .hudHeader {
+    @include flex-between;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid $border-subtle;
+
+    .hudTitle {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: $text-muted;
+    }
+
+    .coordBadge {
+      font-family: $font-mono;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: $color-cyan;
+      background-color: rgba(37, 99, 235, 0.1);
+      padding: 0.1rem 0.4rem;
+      border-radius: $radius-sm;
+    }
+  }
+
+  .hudRow {
+    @include flex-between;
+    font-family: $font-mono;
+    font-size: 0.84rem;
+
+    .rowKey {
+      color: $text-secondary;
+      font-weight: 600;
+    }
+
+    .rowVal {
+      font-weight: 800;
+      color: $text-primary;
+
+      &.profit { color: $color-profit; }
+      &.loss { color: $color-loss; }
+      &.cyan { color: $color-cyan; }
+    }
+  }
+}
+
+// 3D Legend & Coordinates Info at Bottom
+.bottomInfo {
+  position: absolute;
+  bottom: 1rem;
+  right: 1.25rem;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  background-color: $bg-panel;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-md;
+  padding: 0.45rem 0.85rem;
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  font-family: $font-mono;
+  font-size: 0.75rem;
+  color: $text-muted;
+
+  .axisInfo {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    .axisDot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+
+      &.x { background-color: $color-cyan; }
+      &.y { background-color: $color-profit; }
+      &.z { background-color: $color-purple; }
+    }
+
+    span {
+      font-weight: 700;
+      color: $text-secondary;
+    }
+  }
+}
+
+@keyframes hudFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translate(14px, 14px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translate(14px, 14px);
+  }
+}

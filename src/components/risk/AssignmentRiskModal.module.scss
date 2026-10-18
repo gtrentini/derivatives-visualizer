@@ -1,0 +1,236 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.modal {
+  width: 100%;
+  max-width: 880px;
+  max-height: 85vh;
+  background-color: $bg-panel;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-lg;
+  box-shadow: var(--shadow-modal);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: scaleUp 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: background-color $transition-base;
+}
+
+.header {
+  @include flex-between;
+  padding: 1.25rem 1.6rem;
+  border-bottom: 1px solid $border-subtle;
+  background-color: $bg-card;
+
+  .titleGroup {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    .iconWrapper {
+      color: $color-amber;
+      display: flex;
+      align-items: center;
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: $text-primary;
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+
+    .badge {
+      @include badge(rgba(217, 119, 6, 0.1), $color-amber, rgba(217, 119, 6, 0.25));
+    }
+  }
+
+  .closeBtn {
+    color: $text-secondary;
+    padding: 0.45rem;
+    border-radius: $radius-sm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all $transition-base;
+
+    &:hover {
+      color: $text-primary;
+      background-color: $bg-hover;
+    }
+  }
+}
+
+.content {
+  padding: 1.5rem 1.6rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-md;
+  box-shadow: var(--shadow-card);
+}
+
+.riskTable {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    background-color: $bg-card;
+    color: $text-muted;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.85rem 1.1rem;
+    text-align: left;
+    border-bottom: 1px solid $border-subtle;
+  }
+
+  td {
+    padding: 0.85rem 1.1rem;
+    font-family: $font-mono;
+    font-size: 0.88rem;
+    color: $text-primary;
+    border-bottom: 1px solid $border-subtle;
+    white-space: nowrap;
+
+    &.recCell {
+      font-family: $font-sans;
+      font-size: 0.85rem;
+      color: $text-secondary;
+      white-space: normal;
+      min-width: 260px;
+      line-height: 1.4;
+    }
+  }
+
+  tr:hover td {
+    background-color: $bg-hover;
+  }
+}
+
+.riskBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: $radius-sm;
+  font-family: $font-mono;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+
+  &.critical {
+    background-color: rgba(220, 38, 38, 0.15);
+    color: $color-loss;
+    border: 1px solid rgba(220, 38, 38, 0.3);
+  }
+
+  &.elevated {
+    background-color: rgba(217, 119, 6, 0.15);
+    color: $color-amber;
+    border: 1px solid rgba(217, 119, 6, 0.3);
+  }
+
+  &.moderate {
+    background-color: rgba(37, 99, 235, 0.12);
+    color: $color-cyan;
+    border: 1px solid rgba(37, 99, 235, 0.25);
+  }
+
+  &.low {
+    background-color: rgba(22, 163, 74, 0.12);
+    color: $color-profit;
+    border: 1px solid rgba(22, 163, 74, 0.25);
+  }
+}
+
+.probMeter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  .probBar {
+    width: 60px;
+    height: 6px;
+    border-radius: 999px;
+    background-color: $bg-canvas;
+    border: 1px solid $border-subtle;
+    overflow: hidden;
+
+    .probFill {
+      height: 100%;
+      border-radius: 999px;
+
+      &.critical { background-color: $color-loss; }
+      &.elevated { background-color: $color-amber; }
+      &.low { background-color: $color-profit; }
+    }
+  }
+
+  .probPct {
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+}
+
+.emptyState {
+  @include flex-col-center;
+  padding: 3.5rem 1.5rem;
+  color: $text-muted;
+  text-align: center;
+  gap: 0.75rem;
+
+  .emptyIcon {
+    color: $color-profit;
+  }
+
+  h4 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: $text-primary;
+  }
+
+  p {
+    font-size: 0.88rem;
+    max-width: 420px;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}

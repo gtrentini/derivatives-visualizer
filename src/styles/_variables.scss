@@ -1,0 +1,81 @@
+// Root Theme Tokens: Default Light (Crisp Swiss Institutional)
+:root, [data-theme='light'] {
+  --bg-canvas: #f8fafc;
+  --bg-panel: #ffffff;
+  --bg-card: #f1f5f9;
+  --bg-hover: #e2e8f0;
+  --border-subtle: #e2e8f0;
+  --border-focus: #2563eb;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --color-profit: #16a34a;
+  --color-loss: #dc2626;
+  --color-cyan: #2563eb;
+  --color-amber: #d97706;
+  --color-purple: #7c3aed;
+  --canvas-bg: #f8fafc;
+  --canvas-grid: rgba(15, 23, 42, 0.08);
+  --canvas-text: #64748b;
+  --shadow-card: 0 2px 8px rgba(15, 23, 42, 0.06);
+  --shadow-modal: 0 20px 40px rgba(15, 23, 42, 0.15);
+}
+
+// Dark Theme (Matte Studio Slate)
+[data-theme='dark'] {
+  --bg-canvas: #0b0f17;
+  --bg-panel: #111827;
+  --bg-card: #1f2937;
+  --bg-hover: #374151;
+  --border-subtle: #2d3748;
+  --border-focus: #3b82f6;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --color-profit: #10b981;
+  --color-loss: #f43f5e;
+  --color-cyan: #38bdf8;
+  --color-amber: #f59e0b;
+  --color-purple: #a855f7;
+  --canvas-bg: #0b0f17;
+  --canvas-grid: rgba(255, 255, 255, 0.06);
+  --canvas-text: #94a3b8;
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-modal: 0 20px 40px rgba(0, 0, 0, 0.7);
+}
+
+// Map SCSS variables to CSS custom properties
+$bg-canvas: var(--bg-canvas);
+$bg-panel: var(--bg-panel);
+$bg-card: var(--bg-card);
+$bg-hover: var(--bg-hover);
+
+$border-subtle: var(--border-subtle);
+$border-focus: var(--border-focus);
+
+$text-primary: var(--text-primary);
+$text-secondary: var(--text-secondary);
+$text-muted: var(--text-muted);
+
+$color-profit: var(--color-profit);
+$color-loss: var(--color-loss);
+$color-cyan: var(--color-cyan);
+$color-amber: var(--color-amber);
+$color-purple: var(--color-purple);
+
+// Large Humane Typography Scale
+$font-xs: 0.82rem;  // ~12.5px
+$font-sm: 0.88rem;  // ~13.5px
+$font-base: 0.95rem;// ~14.5px
+$font-md: 1.05rem;  // ~16px
+$font-lg: 1.25rem;  // ~19px
+$font-xl: 1.55rem;  // ~23px
+
+$font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+$font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+// Humane Geometry & Transitions
+$radius-sm: 6px;
+$radius-md: 10px;
+$radius-lg: 14px;
+$transition-base: 0.18s cubic-bezier(0.16, 1, 0.3, 1);

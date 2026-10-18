@@ -1,0 +1,335 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.header {
+  height: 72px;
+  background-color: $bg-panel;
+  border-bottom: 1px solid $border-subtle;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  gap: 1.5rem;
+  flex-shrink: 0;
+  z-index: 100;
+  transition: background-color $transition-base, border-color $transition-base;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+
+  .logoIcon {
+    color: $color-cyan;
+    display: flex;
+    align-items: center;
+  }
+
+  .title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: $text-primary;
+    white-space: nowrap;
+
+    span {
+      color: $color-cyan;
+    }
+  }
+}
+
+.tickerGroup {
+  display: flex;
+  align-items: center;
+  background-color: $bg-canvas;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-md;
+  padding: 0.35rem 0.8rem;
+  gap: 0.9rem;
+
+  .symbolBadge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .symbol {
+      font-family: $font-mono;
+      font-weight: 700;
+      font-size: 1.05rem; // ~16px
+      color: $text-primary;
+    }
+
+    .livePill {
+      font-size: 0.7rem;
+      font-family: $font-mono;
+      font-weight: 700;
+      color: $color-profit;
+      background: rgba(22, 163, 74, 0.12);
+      padding: 0.12rem 0.45rem;
+      border-radius: 999px;
+      letter-spacing: 0.05em;
+    }
+  }
+
+  .marketPill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.68rem;
+    font-family: $font-mono;
+    font-weight: 700;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    letter-spacing: 0.05em;
+    cursor: help;
+    white-space: nowrap;
+
+    &.live {
+      color: $color-profit;
+      background: rgba(22, 163, 74, 0.12);
+      border: 1px solid rgba(22, 163, 74, 0.3);
+    }
+
+    &.fallback {
+      color: $color-amber;
+      background: rgba(217, 119, 6, 0.12);
+      border: 1px solid rgba(217, 119, 6, 0.3);
+    }
+  }
+
+  .spotPriceDisplay {
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    font-family: $font-mono;
+
+    .currency {
+      font-size: 0.95rem;
+      color: $text-muted;
+      font-weight: 600;
+    }
+
+    .price {
+      font-size: 1.45rem; // ~22px
+      font-weight: 800;
+      color: $color-cyan;
+      letter-spacing: -0.02em;
+    }
+  }
+
+  .nudgeControls {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-left: 0.35rem;
+    padding-left: 0.65rem;
+    border-left: 1px solid $border-subtle;
+
+    .nudgeBtn {
+      font-family: $font-mono;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.25rem 0.55rem;
+      background-color: $bg-card;
+      border: 1px solid $border-subtle;
+      border-radius: $radius-sm;
+      color: $text-secondary;
+      transition: all $transition-base;
+
+      &:hover {
+        background-color: $bg-hover;
+        color: $text-primary;
+        border-color: $border-focus;
+      }
+
+      &:active {
+        transform: translateY(1px);
+      }
+    }
+  }
+}
+
+.strategyBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.9rem;
+  background-color: rgba(37, 99, 235, 0.08);
+  border: 1px solid rgba(37, 99, 235, 0.25);
+  border-radius: $radius-md;
+
+  .label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: $text-muted;
+    letter-spacing: 0.05em;
+  }
+
+  .value {
+    font-family: $font-mono;
+    font-size: 0.85rem; // ~13px
+    font-weight: 800;
+    color: $color-cyan;
+  }
+}
+
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.telemetryGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+
+  @media (max-width: 1280px) {
+    display: none;
+  }
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: $bg-card;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-md;
+  padding: 0.45rem 0.95rem;
+  min-width: 120px;
+  box-shadow: var(--shadow-card);
+  transition: background-color $transition-base, border-color $transition-base;
+
+  .statLabel {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: $text-muted;
+    letter-spacing: 0.06em;
+  }
+
+  .statValue {
+    font-family: $font-mono;
+    font-size: 0.98rem; // ~15px
+    font-weight: 700;
+    color: $text-primary;
+    white-space: nowrap;
+
+    &.profit {
+      color: $color-profit;
+    }
+
+    &.loss {
+      color: $color-loss;
+    }
+
+    &.neutral {
+      color: $color-amber;
+    }
+  }
+}
+
+.themeToggleBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: $radius-md;
+  background-color: $bg-card;
+  border: 1px solid $border-subtle;
+  color: $text-secondary;
+  transition: all $transition-base;
+
+  &:hover {
+    color: $color-cyan;
+    background-color: $bg-hover;
+    border-color: $border-focus;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.toolsGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toolBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: $radius-md;
+  background-color: $bg-card;
+  border: 1px solid $border-subtle;
+  color: $text-secondary;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $transition-base;
+  box-shadow: var(--shadow-card);
+  white-space: nowrap;
+
+  &:hover {
+    color: $text-primary;
+    background-color: $bg-hover;
+    border-color: $border-focus;
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &.critical {
+    background-color: rgba(220, 38, 38, 0.12);
+    border-color: rgba(220, 38, 38, 0.35);
+    color: $color-loss;
+
+    &:hover {
+      background-color: rgba(220, 38, 38, 0.18);
+    }
+  }
+
+  &.elevated {
+    background-color: rgba(217, 119, 6, 0.12);
+    border-color: rgba(217, 119, 6, 0.35);
+    color: $color-amber;
+
+    &:hover {
+      background-color: rgba(217, 119, 6, 0.18);
+    }
+  }
+
+  .toolBadge {
+    padding: 0.1rem 0.4rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-family: $font-mono;
+    font-weight: 700;
+    line-height: 1;
+
+    &.critical {
+      background-color: $color-loss;
+      color: #ffffff;
+    }
+
+    &.elevated {
+      background-color: $color-amber;
+      color: #ffffff;
+    }
+  }
+}

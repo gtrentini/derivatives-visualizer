@@ -1,0 +1,301 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.sidebar {
+  width: 400px;
+  min-width: 400px;
+  height: 100%;
+  background-color: $bg-panel;
+  border-right: 1px solid $border-subtle;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: background-color $transition-base, border-color $transition-base;
+}
+
+.presetsSection {
+  padding: 1.25rem 1.35rem;
+  border-bottom: 1px solid $border-subtle;
+  background-color: $bg-panel;
+
+  .sectionHeader {
+    @include flex-between;
+    margin-bottom: 0.85rem;
+
+    .title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: $text-secondary;
+    }
+
+    .presetBadge {
+      @include badge(rgba(37, 99, 235, 0.1), $color-cyan, rgba(37, 99, 235, 0.25));
+    }
+  }
+
+  .presetGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+
+    .presetBtn {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 0.75rem 0.85rem;
+      background-color: $bg-card;
+      border: 1px solid $border-subtle;
+      border-radius: $radius-md;
+      color: $text-secondary;
+      transition: all $transition-base;
+      text-align: left;
+      box-shadow: var(--shadow-card);
+
+      .presetName {
+        font-size: 0.92rem;
+        font-weight: 700;
+        color: $text-primary;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+      }
+
+      .presetSentiment {
+        font-size: 0.82rem;
+        font-family: $font-mono;
+        color: $text-muted;
+        margin-top: 0.2rem;
+        font-weight: 500;
+      }
+
+      &:hover:not(.active) {
+        border-color: $border-focus;
+        background-color: $bg-hover;
+      }
+
+      &.active {
+        background-color: rgba(37, 99, 235, 0.08);
+        border-color: $border-focus;
+        box-shadow: 0 0 12px rgba(37, 99, 235, 0.18);
+
+        .presetName {
+          color: $color-cyan;
+        }
+
+        .presetSentiment {
+          color: $color-cyan;
+        }
+      }
+    }
+  }
+}
+
+.inventorySection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 1.25rem 1.35rem;
+
+  .inventoryHeader {
+    @include flex-between;
+    margin-bottom: 0.95rem;
+
+    .titleGroup {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+
+      .title {
+        font-size: 0.82rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: $text-secondary;
+      }
+
+      .countBadge {
+        @include badge($bg-card, $text-secondary, $border-subtle);
+        font-size: 0.8rem;
+      }
+    }
+
+    .addLegBtn {
+      @include flex-center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.85rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      font-family: $font-mono;
+      color: #ffffff;
+      background-color: $color-cyan;
+      border-radius: $radius-sm;
+      transition: all $transition-base;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+
+      &:hover {
+        opacity: 0.92;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(37, 99, 235, 0.4);
+      }
+
+      &:active {
+        transform: translateY(1px);
+      }
+    }
+  }
+
+  .legList {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding-right: 0.25rem;
+  }
+}
+
+.legCard {
+  background-color: $bg-card;
+  border: 1px solid $border-subtle;
+  border-radius: $radius-md;
+  padding: 0.9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: all $transition-base;
+  position: relative;
+  box-shadow: var(--shadow-card);
+
+  &:hover {
+    border-color: $border-focus;
+    background-color: $bg-hover;
+  }
+
+  &.inactive {
+    opacity: 0.45;
+    background-color: rgba(14, 19, 31, 0.1);
+    border-style: dashed;
+  }
+
+  .cardTop {
+    @include flex-between;
+
+    .badgesGroup {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+
+      .sideBadge {
+        &.long {
+          @include badge(rgba(37, 99, 235, 0.12), $color-cyan, rgba(37, 99, 235, 0.25));
+          font-size: 0.82rem;
+        }
+
+        &.short {
+          @include badge(rgba(217, 119, 6, 0.12), $color-amber, rgba(217, 119, 6, 0.25));
+          font-size: 0.82rem;
+        }
+      }
+
+      .typeBadge {
+        &.call {
+          @include badge(rgba(22, 163, 74, 0.12), $color-profit, rgba(22, 163, 74, 0.25));
+          font-size: 0.82rem;
+        }
+
+        &.put {
+          @include badge(rgba(220, 38, 38, 0.12), $color-loss, rgba(220, 38, 38, 0.25));
+          font-size: 0.82rem;
+        }
+
+        &.stock {
+          @include badge(rgba(124, 58, 237, 0.12), $color-purple, rgba(124, 58, 237, 0.25));
+          font-size: 0.82rem;
+        }
+      }
+
+      .strikeHighlight {
+        font-family: $font-mono;
+        font-size: 1rem;
+        font-weight: 800;
+        color: $text-primary;
+        margin-left: 0.25rem;
+      }
+    }
+
+    .cardActions {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+
+      .actionIconBtn {
+        color: $text-muted;
+        padding: 0.3rem;
+        border-radius: $radius-sm;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all $transition-base;
+
+        &:hover {
+          color: $text-primary;
+          background-color: $bg-hover;
+        }
+
+        &.activeToggle {
+          color: $color-cyan;
+        }
+
+        &.deleteBtn:hover {
+          color: $color-loss;
+          background-color: rgba(220, 38, 38, 0.1);
+        }
+      }
+    }
+  }
+
+  .cardGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid $border-subtle;
+
+    .gridItem {
+      display: flex;
+      flex-direction: column;
+
+      .itemLabel {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: $text-muted;
+        letter-spacing: 0.05em;
+      }
+
+      .itemValue {
+        font-family: $font-mono;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: $text-primary;
+        margin-top: 0.15rem;
+      }
+    }
+  }
+}
+
+.emptyState {
+  @include flex-col-center;
+  padding: 3.5rem 1.5rem;
+  color: $text-muted;
+  text-align: center;
+  gap: 0.85rem;
+
+  p {
+    font-size: 0.92rem;
+  }
+}
